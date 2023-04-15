@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sebva\\OneDrive\\Skrivebord\\Game Framework\\Game Framework\\Game Framework.csproj": {}
+    "C:\\Users\\sebva\\Desktop\\2d-Game-Framework\\Game test\\Game Framework\\Game Framework.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sebva\\OneDrive\\Skrivebord\\Game Framework\\Game Framework\\Game Framework.csproj": {
+    "C:\\Users\\sebva\\Desktop\\2d-Game-Framework\\Game test\\Game Framework\\Game Framework.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sebva\\OneDrive\\Skrivebord\\Game Framework\\Game Framework\\Game Framework.csproj",
+        "projectUniqueName": "C:\\Users\\sebva\\Desktop\\2d-Game-Framework\\Game test\\Game Framework\\Game Framework.csproj",
         "projectName": "Game Framework",
-        "projectPath": "C:\\Users\\sebva\\OneDrive\\Skrivebord\\Game Framework\\Game Framework\\Game Framework.csproj",
+        "projectPath": "C:\\Users\\sebva\\Desktop\\2d-Game-Framework\\Game test\\Game Framework\\Game Framework.csproj",
         "packagesPath": "C:\\Users\\sebva\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sebva\\OneDrive\\Skrivebord\\Game Framework\\Game Framework\\obj\\",
+        "outputPath": "C:\\Users\\sebva\\Desktop\\2d-Game-Framework\\Game test\\Game Framework\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\sebva\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -59,7 +55,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

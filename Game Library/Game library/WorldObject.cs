@@ -1,4 +1,6 @@
-﻿namespace Game_library
+﻿using Game_library.Interfaces;
+
+namespace Game_library
 {
     /// <summary>
     /// An object in the world, can be pickups or blockades
@@ -8,15 +10,15 @@
         /// <summary>
         /// The position where the world object lies
         /// </summary>
-        public Position Pos { get; set; }
+        public IPosition Pos { get; set; }
         /// <summary>
         /// The attack item object, in case the world object is a weapon pickup
         /// </summary>
-        public AttackItem Weapon { get; set; }
+        public AttackItem? Weapon { get; set; }
         /// <summary>
         /// The defense item object, in case the world object is a defense pickup
         /// </summary>
-        public DefenseItem Defense { get; set; }
+        public DefenseItem? Defense { get; set; }
         /// <summary>
         /// Name of the world object
         /// </summary>
@@ -35,7 +37,7 @@
         /// <param name="name">Name for the world object being created</param>
         /// <param name="position">The position for the world object in the world</param>
         /// <param name="removable">Bool that decides if the world object can be removed from the map</param>
-        public WorldObject(string name, Position position, bool removable)
+        public WorldObject(string name, IPosition position, bool removable)
         {
             Name = name;
             Pos = position;
@@ -48,7 +50,7 @@
         /// <param name="name">Name for the world object being created</param>
         /// <param name="position">The position for the world object in the world</param>
         /// <param name="weapon">The attack item the world object contains</param>
-        public WorldObject(string name, Position position, AttackItem weapon)
+        public WorldObject(string name, IPosition position, AttackItem weapon)
         {
             Name = name;
             Pos = position;
@@ -62,7 +64,7 @@
         /// <param name="name">Name for the world object being created</param>
         /// <param name="position">The position for the world object in the world</param>
         /// <param name="defense">The defense item the world object contains</param>
-        public WorldObject(string name, Position position, DefenseItem defense)
+        public WorldObject(string name, IPosition position, DefenseItem defense)
         {
             Name = name;
             Pos = position;

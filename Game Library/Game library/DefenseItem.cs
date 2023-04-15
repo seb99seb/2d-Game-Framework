@@ -1,9 +1,11 @@
-﻿namespace Game_library
+﻿using Game_library.Interfaces;
+
+namespace Game_library
 {
     /// <summary>
     /// An equipable defensive item, that dictates the wearers capability to resist damage
     /// </summary>
-    public class DefenseItem
+    public class DefenseItem : IEquipment
     {
         /// <summary>
         /// Name of the defense item

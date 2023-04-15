@@ -1,9 +1,11 @@
-﻿namespace Game_library
+﻿using Game_library.Interfaces;
+
+namespace Game_library
 {
     /// <summary>
     /// An equipable offensive item, that dictates the wearers capability to do damage, both damage and range wise
     /// </summary>
-    public class AttackItem
+    public class AttackItem : IEquipment
     {
         /// <summary>
         /// Name of the attack item

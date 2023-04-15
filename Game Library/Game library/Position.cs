@@ -1,9 +1,11 @@
-﻿namespace Game_library
+﻿using Game_library.Interfaces;
+
+namespace Game_library
 {
     /// <summary>
     /// The actual 2d coordinates for a position, used for WorldObjects and Creatures
     /// </summary>
-    public class Position
+    public class Position : IPosition
     {
         /// <summary>
         /// The X coordinate for a given object, will be used for positioning in the world

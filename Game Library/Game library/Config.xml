@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<WorldConfig>
+	<xMaxCoordinate>25</xMaxCoordinate>
+	<yMaxCoordinate>50</yMaxCoordinate>
+</WorldConfig>

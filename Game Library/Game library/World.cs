@@ -1,4 +1,7 @@
-﻿namespace Game_library
+﻿using System.Xml;
+using System.Xml.Linq;
+
+namespace Game_library
 {
     /// <summary>
     /// The world, functions as a 2d map for the game to be played on - contains creatures and game objects
@@ -32,6 +35,32 @@
             MaxY = yMaxCoordinate;
             CreatureList = new List<Creature>();
             WorldObjectList = new List<WorldObject>();
+        }
+        public World()
+        {
+            string configPath = "..\\..\\..\\..\\..\\Game Library\\Game library\\Config.xml";
+            if (!File.Exists(configPath))
+            {
+                throw new FileNotFoundException(configPath);
+            }
+            XmlDocument configDoc = new XmlDocument();
+            configDoc.Load(configPath);
+            XmlNode xNode = configDoc.DocumentElement.SelectSingleNode("xMaxCoordinate");
+            XmlNode yNode = configDoc.DocumentElement.SelectSingleNode("yMaxCoordinate");
+
+            MaxX = Convert.ToInt32(xNode.InnerText);
+            MaxY = Convert.ToInt32(yNode.InnerText);
+            CreatureList = new List<Creature>();
+            WorldObjectList = new List<WorldObject>();
+        }
+        public List<Creature> FindEnemy(string creatureName)
+        {
+            var list = from creature in CreatureList
+                                    where creature.Name.ToLower() == creatureName.ToLower()
+                                    select creature;
+            List<Creature> specificEnemyList = list.ToList();
+
+            return specificEnemyList;
         }
     }
 }
