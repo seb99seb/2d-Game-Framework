@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Game Library/.vs/Game library/DesignTimeBuild/.dtbcache.v2
+/Game test/.vs/Game framework/v17/.suo
