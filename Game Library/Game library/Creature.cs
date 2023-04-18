@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime;
 using System.Xml.Linq;
 using Game_library.Attacks;
 using Game_library.Interfaces;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Game_library
 {
@@ -10,6 +13,7 @@ namespace Game_library
     /// </summary>
     public class Creature : ISubject
     {
+        public TraceSource _trace;
         private List<IObserver> _observers = new List<IObserver>();
         private IStrategy _strategy;
         /// <summary>
@@ -28,6 +32,7 @@ namespace Game_library
         /// The name of a given creature
         /// </summary>
         public string Name { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// The life the creature has remaining
         /// </summary>
@@ -39,14 +44,28 @@ namespace Game_library
         /// <param name="hitpoints">Starting life for a creature</param>
         /// <param name="weapon">The starting weapon the creature will be utilizing</param>
         /// <param name="defense">The starting defense the creature will have equipped</param>
-        public Creature(string name, int hitpoints, IPosition position, AttackItem? weapon, DefenseItem? defense)
+        public Creature(int id, string name, int hitpoints, IPosition position, AttackItem? weapon, DefenseItem? defense)
         {
             _strategy = new StandardAttack();
+            Id = id;
             Name = name;
             Hitpoints = hitpoints;
             Pos = position;
             Weapon = weapon;
             Defense = defense;
+
+            _trace = new TraceSource("Creature");
+
+            _trace.Switch = new SourceSwitch("Creature" + "trace", SourceLevels.All.ToString());
+
+            _trace.Listeners.Add(new ConsoleTraceListener());
+            TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+            _trace.Listeners.Add(txtLog);
+            TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+            _trace.Listeners.Add(xmlLog);
+
+            _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" has been spawned in");
+            _trace.Close();
         }
         /// <summary>
         /// Method for calculating however much damage the creature will dish out
@@ -56,10 +75,24 @@ namespace Game_library
         {
             if (Weapon == null)
             {
+                TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+                _trace.Listeners.Add(txtLog);
+                TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+                _trace.Listeners.Add(xmlLog);
+                _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" attempts to hit with 3 damage");
+                _trace.Close();
+
                 return (3, _strategy);
             }
             else
             {
+                TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+                _trace.Listeners.Add(txtLog);
+                TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+                _trace.Listeners.Add(xmlLog);
+                _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" attempts to hit with {Weapon.Damage} damage");
+                _trace.Close();
+
                 return (Convert.ToInt32(_strategy.Attack(Weapon)), _strategy);
             }
         }
@@ -72,10 +105,24 @@ namespace Game_library
             if (typeof(AttackItem).IsInstanceOfType(equipment))
             {
                 Weapon = equipment as AttackItem;
+
+                TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+                _trace.Listeners.Add(txtLog);
+                TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+                _trace.Listeners.Add(xmlLog);
+                _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" loots {Weapon.Name}, with damage of {Weapon.Damage} and range of {Weapon.Range}");
+                _trace.Close();
             }
             else if (typeof(DefenseItem).IsInstanceOfType(equipment))
             {
                 Defense = equipment as DefenseItem;
+
+                TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+                _trace.Listeners.Add(txtLog);
+                TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+                _trace.Listeners.Add(xmlLog);
+                _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" loots {Defense.Name}, with armor of {Defense.Armor}");
+                _trace.Close();
             }
         }
         /// <summary>
@@ -106,11 +153,27 @@ namespace Game_library
             {
                 Hitpoints -= damage;
             }
-            if (Hitpoints < 0)
+            if (Hitpoints <= 0)
             {
                 Hitpoints = 0;
+                TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+                _trace.Listeners.Add(txtLog);
+                TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+                _trace.Listeners.Add(xmlLog);
+                _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" takes {damage} damage, now has {Hitpoints} HP");
+                _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" dies!");
+                _trace.Close();
+                Notify(world);
             }
-            Notify(world);
+            else
+            {
+                TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+                _trace.Listeners.Add(txtLog);
+                TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+                _trace.Listeners.Add(xmlLog);
+                _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" takes {damage} damage, now has {Hitpoints} HP");
+                _trace.Close();
+            }
         }
         public void Attach(IObserver observer)
         {
@@ -125,6 +188,24 @@ namespace Game_library
         }
         public void ChangeStrategy(IStrategy strategy)
         {
+            if (typeof(DoubleAttack).IsInstanceOfType(strategy))
+            {
+                TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+                _trace.Listeners.Add(txtLog);
+                TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+                _trace.Listeners.Add(xmlLog);
+                _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" changes strategy to \"Double Attack\"");
+                _trace.Close();
+            }
+            else if (typeof(StandardAttack).IsInstanceOfType(strategy))
+            {
+                TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+                _trace.Listeners.Add(txtLog);
+                TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+                _trace.Listeners.Add(xmlLog);
+                _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" changes strategy to \"Standard Attack\"");
+                _trace.Close();
+            }
             _strategy = strategy;
         }
     }

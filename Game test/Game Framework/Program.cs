@@ -2,25 +2,40 @@
 using Game_library.Attacks;
 using Game_library.Observers;
 using Game_library.Factories;
+using System.Diagnostics;
+using System.Xml.Linq;
+using System.Reflection.Emit;
+using System.IO;
 
-World world = new World(10, 10);
+#region Config
+/*
+World world = new World();
+Console.WriteLine($"{worldConfigExample.Name} has the following x and y coordinates:");
+Console.WriteLine($"{worldConfigExample.MaxX} is the max x coordinate");
+Console.WriteLine($"{worldConfigExample.MaxY} is the max y coordinate");
+Console.WriteLine("----------------");
+*/
+#endregion
+World world = new World("ExampleWorld", 10, 10);
 
 #region Creature creation
-Creature goblin1 = new Creature("Goblin", 7, new Position(5, 10), new AttackItem("Big Club", 4, 1), new DefenseItem("Leather", 2));
+Creature goblin1 = new Creature(1, "Goblin", 7, new Position(5, 10), new AttackItem("Big Club", 4, 1), new DefenseItem("Leather", 2));
 goblin1.Attach(new CreatureObserver());
 world.CreatureList.Add(goblin1);
 
-Creature goblin2 = new Creature("Goblin", 7, new Position(6, 10), null, null);
+Creature goblin2 = new Creature(2, "Goblin", 7, new Position(6, 10), null, null);
 goblin2.Attach(new CreatureObserver());
 world.CreatureList.Add(goblin2);
 
-Creature goblin3 = new Creature("Goblin", 20, new Position(7, 10), null, new DefenseItem("Cloth", 1));
+Creature goblin3 = new Creature(3, "Goblin", 20, new Position(7, 10), null, new DefenseItem("Cloth", 1));
 goblin3.Attach(new CreatureObserver());
 world.CreatureList.Add(goblin3);
 #endregion
 
+Console.WriteLine("----------------");
+
 #region Observer
-Console.WriteLine("Current creatures in the world");
+Console.WriteLine("Current creatures in " + world.Name);
 foreach (Creature creature in world.CreatureList)
 {
     Console.WriteLine(creature.Name);
@@ -32,7 +47,7 @@ goblin2.ReceiveHit(world, goblin1.Hit());
 goblin2.ReceiveHit(world, goblin1.Hit());
 
 Console.WriteLine("");
-Console.WriteLine("Current creatures in the world");
+Console.WriteLine("Current creatures in " + world.Name);
 foreach (Creature creature in world.CreatureList)
 {
     Console.WriteLine(creature.Name);
@@ -41,16 +56,19 @@ foreach (Creature creature in world.CreatureList)
 
 Console.WriteLine("----------------");
 goblin1.Loot(new AttackItem("Bigger Club", 7, 1));
+Console.WriteLine("----------------");
 
 #region Strategy
-Console.WriteLine(goblin3.Hitpoints);
+Console.WriteLine("Goblin with id of 3 has " + goblin3.Hitpoints + "HP");
+Console.WriteLine("");
 
 goblin3.ReceiveHit(world, goblin1.Hit()); //should be hit for 6 damage
-Console.WriteLine(goblin3.Hitpoints); //should be at 14 hitpoints
+Console.WriteLine("");
 
 goblin1.ChangeStrategy(new DoubleAttack()); //Sets the attack type to double attack instand of standard attack
+Console.WriteLine("");
+
 goblin3.ReceiveHit(world, goblin1.Hit()); //should be hit for 8 damage
-Console.WriteLine(goblin3.Hitpoints); //should be at 6 hitpoints
 #endregion
 
 Console.WriteLine("----------------");
@@ -93,21 +111,38 @@ foreach (var creature in enemyList)
 Console.WriteLine("----------------");
 
 #region Liskov Substitution
-GhostCreature Phantom1 = new GhostCreature("Phantom", 1, new Position(4, 9), new AttackItem("Lance", 4, 2), new DefenseItem("Spectral Armor", 3));
+GhostCreature Phantom1 = new GhostCreature(4, "Phantom", 1, new Position(4, 9), new AttackItem("Lance", 4, 2), new DefenseItem("Spectral Armor", 3));
 Phantom1.Attach(new CreatureObserver());
 world.CreatureList.Add(Phantom1);
 
-GhostCreature Phantom2 = new GhostCreature("Phantom", 1, new Position(5, 9), null, null);
+GhostCreature Phantom2 = new GhostCreature(5, "Phantom", 1, new Position(5, 9), null, null);
 Phantom2.Attach(new CreatureObserver());
 world.CreatureList.Add(Phantom2);
 
 Phantom2.ReceiveHit(world, Phantom1.Hit());
+
+Console.WriteLine("\nCurrent creatures in " + world.Name);
+foreach (Creature creature in world.CreatureList)
+{
+    Console.WriteLine(creature.Name);
+}
 #endregion
 
-Console.WriteLine("----------------");
+/*
+File.Create("Combat-Log.txt").Close();
+File.Create("Combat-Log.xml").Close();
 
-#region Config
-World worldConfigExample = new World();
-Console.WriteLine($"{worldConfigExample.MaxX} is the max X coordinate");
-Console.WriteLine($"{worldConfigExample.MaxY} is the max Y coordinate");
-#endregion
+TraceSource _trace = new TraceSource("Creature");
+
+_trace.Switch = new SourceSwitch("Creature" + "trace", SourceLevels.All.ToString());
+
+_trace.Listeners.Add(new ConsoleTraceListener());
+TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+_trace.Listeners.Add(txtLog);
+TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+_trace.Listeners.Add(xmlLog);
+
+_trace.TraceEvent(TraceEventType.Information, 1, "SPAWNED");
+
+_trace.Close();
+*/

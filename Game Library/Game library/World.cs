@@ -19,6 +19,7 @@ namespace Game_library
         /// <summary>
         /// Max x coordinate, world will span from 0 to this given value for x
         /// </summary>
+        public string Name { get; set; }
         public int MaxX { get; set; }
         /// <summary>
         /// Max y coordinate, world will span from 0 to this given value for y
@@ -29,8 +30,12 @@ namespace Game_library
         /// </summary>
         /// <param name="xMaxCoordinate">Decides the max x coordinate for the world</param>
         /// <param name="yMaxCoordinate">Decides the max y coordinate for the world</param>
-        public World(int xMaxCoordinate, int yMaxCoordinate)
+        public World(string name, int xMaxCoordinate, int yMaxCoordinate)
         {
+            File.Create("Combat-Log.txt").Close();
+            File.Create("Combat-Log.xml").Close();
+
+            Name = name;
             MaxX = xMaxCoordinate;
             MaxY = yMaxCoordinate;
             CreatureList = new List<Creature>();
@@ -38,6 +43,9 @@ namespace Game_library
         }
         public World()
         {
+            File.Create("Combat-Log.txt").Close();
+            File.Create("Combat-Log.xml").Close();
+
             string configPath = "..\\..\\..\\..\\..\\Game Library\\Game library\\Config.xml";
             if (!File.Exists(configPath))
             {
@@ -45,11 +53,14 @@ namespace Game_library
             }
             XmlDocument configDoc = new XmlDocument();
             configDoc.Load(configPath);
+            XmlNode NameNode = configDoc.DocumentElement.SelectSingleNode("WordName");
             XmlNode xNode = configDoc.DocumentElement.SelectSingleNode("xMaxCoordinate");
             XmlNode yNode = configDoc.DocumentElement.SelectSingleNode("yMaxCoordinate");
 
+            Name = NameNode.InnerText;
             MaxX = Convert.ToInt32(xNode.InnerText);
             MaxY = Convert.ToInt32(yNode.InnerText);
+
             CreatureList = new List<Creature>();
             WorldObjectList = new List<WorldObject>();
         }

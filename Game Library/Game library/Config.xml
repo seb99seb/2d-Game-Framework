@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <WorldConfig>
+	<WordName>Configured World</WordName>
 	<xMaxCoordinate>25</xMaxCoordinate>
 	<yMaxCoordinate>50</yMaxCoordinate>
 </WorldConfig>

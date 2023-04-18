@@ -2,6 +2,7 @@
 using Game_library.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Game_library
 {
     public class GhostCreature : Creature
     {
-        public GhostCreature(string name, int hitpoints, IPosition position, AttackItem? weapon, DefenseItem? defense) : base(name, hitpoints, position, weapon, defense) { }
+        public GhostCreature(int id, string name, int hitpoints, IPosition position, AttackItem? weapon, DefenseItem? defense) : base(id, name, hitpoints, position, weapon, defense) { }
         public override void ReceiveHit(World world, (int damage, IStrategy strat) hitinfo)
         {
             int tempDefStat;
@@ -36,6 +37,12 @@ namespace Game_library
             {
                 hits += RNG(tempDefStat, hitinfo.damage);
             }
+            TraceListener txtLog = new TextWriterTraceListener("Combat-Log.txt");
+            _trace.Listeners.Add(txtLog);
+            TraceListener xmlLog = new XmlWriterTraceListener("Combat-Log.xml");
+            _trace.Listeners.Add(xmlLog);
+            _trace.TraceEvent(TraceEventType.Information, Id, $"Creature {Id} \"{Name}\" takes {hits} damage");
+            _trace.Close();
             Hitpoints -= hits;
             if (Hitpoints < 0)
             {
@@ -50,7 +57,7 @@ namespace Game_library
             {
                 if (rnd.Next(1, 5) != 1)
                 {
-                    Console.WriteLine("Succes on 75% roll");
+                    //Console.WriteLine("Succes on 75% roll");
                     return 1;
                 }
             }
@@ -58,7 +65,7 @@ namespace Game_library
             {
                 if (rnd.Next(1, 5) == 1)
                 {
-                    Console.WriteLine("Succes on 50% roll");
+                    //Console.WriteLine("Succes on 50% roll");
                     return 1;
                 }
             }
@@ -66,7 +73,7 @@ namespace Game_library
             {
                 if (rnd.Next(1, 3) == 1)
                 {
-                    Console.WriteLine("Succes on 25% roll");
+                    //Console.WriteLine("Succes on 25% roll");
                     return 1;
                 }
             }

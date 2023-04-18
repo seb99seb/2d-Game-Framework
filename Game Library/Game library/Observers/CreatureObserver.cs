@@ -14,7 +14,7 @@ namespace Game_library.Observers
             Creature creature = subject as Creature;
             if (creature.Hitpoints == 0)
             {
-                Console.WriteLine($"{creature.Name} has been slayed");
+                //Console.WriteLine($"{creature.Name} has been slayed");
                 world.CreatureList.Remove(creature);
             }
         }
