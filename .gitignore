@@ -396,3 +396,17 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/Game test/Game Framework/obj/project.nuget.cache
+/Game test/Game Framework/obj/Debug/net6.0/Game Framework.GeneratedMSBuildEditorConfig.editorconfig
+/Game test/Game Framework/obj/Debug/net6.0/Game Framework.csproj.AssemblyReference.cache
+/Game test/Game Framework/obj/Game Framework.csproj.nuget.dgspec.json
+/Game Library/Game library/obj/project.assets.json
+/Game Library/Game library/obj/Game library.csproj.nuget.dgspec.json
+/Game Library/Game library/obj/Debug/net6.0/Game library.GeneratedMSBuildEditorConfig.editorconfig
+/Game Library/Game library/obj/Game library.csproj.nuget.g.props
+/Game test/Game Framework/obj/Debug/net6.0/Game Framework.assets.cache
+/Game test/Game Framework/obj/Game Framework.csproj.nuget.g.props
+/Game test/Game Framework/obj/project.assets.json
+/Game Library/Game library/obj/Debug/net6.0/Game library.csproj.AssemblyReference.cache
+/Game Library/Game library/obj/Debug/net6.0/Game library.assets.cache
+/Game Library/Game library/obj/project.nuget.cache
